@@ -1,0 +1,96 @@
+
+spring-projects/spring-boot
+    'Match in Release: ' found in release: v3.0.0-M3
+
+elastic/elasticsearch
+    'Match in Issue: ' found in issue: 111114
+    'Match in Issue: ' found in issue: 100055
+
+mybatis/mybatis-3
+    'Match in Release: ' found in release: mybatis-3.5.12
+
+jenkinsci/jenkins
+    'Match in Release: ' found in release: jenkins-2.348
+
+SeleniumHQ/selenium
+    'Match in Release: ' found in release: selenium-4.28.0
+    'Match in Release: ' found in release: selenium-4.17.0
+    'Match in Release: ' found in release: selenium-4.0.0-beta-1
+    'Match in Release: ' found in release: selenium-4.0.0-alpha-4
+    'Match in Release: ' found in release: selenium-4.0.0-alpha-3
+    'Match in Release: ' found in release: selenium-3.11.0
+
+ReactiveX/RxJava
+    'Match in Release: ' found in release: 0.19.0
+
+OpenAPITools/openapi-generator
+    'Match in Release: ' found in release: v6.0.0-beta
+
+apache/dolphinscheduler
+    'Match in Issue: ' found in issue: 17244
+
+termux/termux-app
+    'Match in Release: ' found in release: v0.118.0
+
+google/gson
+    'Match in Issue: ' found in issue: 2365
+
+bazelbuild/bazel
+    'Match in Release: ' found in release: 8.0.0
+
+dbeaver/dbeaver
+    'Match in Issue: ' found in issue: 36172
+
+pinpoint-apm/pinpoint
+    'Match in Issue: ' found in issue: 10268
+    'Match in Release: ' found in release: v3.0.0
+
+iBotPeaches/Apktool
+    'Match in Issue: ' found in issue: 3641
+
+apache/druid
+    'Match in Release: ' found in release: druid-32.0.0
+    'Match in Release: ' found in release: druid-24.0.0
+    'Match in Release: ' found in release: druid-0.18.0
+
+elastic/logstash
+    'Match in Issue: ' found in issue: 14301
+    'Match in Issue: ' found in issue: 12409
+
+antlr/antlr4
+    'Match in Release: ' found in release: 4.10
+
+Tencent/tinker
+    'Match in Issue: ' found in issue: 1385
+
+quarkusio/quarkus
+    'Match in Release: ' found in release: 2.0.0.Final
+    'Match in Release: ' found in release: 2.0.0.Alpha3
+    'Match in Release: ' found in release: 1.13.0.CR1
+    'Match in Release: ' found in release: 1.12.0.Final
+    'Match in Release: ' found in release: 1.8.0.CR1
+    'Match in Release: ' found in release: 1.6.0.CR1
+    'Match in Release: ' found in release: 1.3.0.Alpha2
+    'Match in Release: ' found in release: 1.2.0.CR1
+    'Match in Release: ' found in release: 1.1.0.CR1
+
+mockito/mockito
+    'Match in Release: ' found in release: v5.0.0
+
+PaperMC/Paper
+    'Match in Issue: ' found in issue: 12328
+
+neo4j/neo4j
+    'Match in Issue: ' found in issue: 12912
+
+Netflix/zuul
+    'Match in Release: ' found in release: v2.5.0
+
+opensearch-project/OpenSearch
+    'Match in Issue: ' found in issue: 12918
+
+questdb/questdb
+    'Match in Issue: ' found in issue: 2261
+
+plantuml/plantuml
+    'Match in Issue: ' found in issue: 1377

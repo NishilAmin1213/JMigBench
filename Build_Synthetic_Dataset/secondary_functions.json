@@ -1,0 +1,227 @@
+[
+  {
+    "name": "hashFileSha256",
+    "java8": "public static String hashFileSha256(java.io.File file) throws java.io.IOException, java.security.NoSuchAlgorithmException {\n    if (file == null || !file.isFile()) {\n        throw new IllegalArgumentException(\"File must be a regular, existing file.\");\n    }\n    java.security.MessageDigest md = java.security.MessageDigest.getInstance(\"SHA-256\");\n    try (java.io.InputStream in = new java.io.BufferedInputStream(new java.io.FileInputStream(file))) {\n        byte[] buffer = new byte[8192];\n        int read;\n        while ((read = in.read(buffer)) != -1) {\n            md.update(buffer, 0, read);\n        }\n    }\n    byte[] digest = md.digest();\n    String hex = javax.xml.bind.DatatypeConverter.printHexBinary(digest);\n    return hex.trim();\n}",
+    "java11": "public static String hashFileSha256(java.io.File file) throws java.io.IOException, java.security.NoSuchAlgorithmException {\n    if (file == null || !file.isFile()) {\n        throw new IllegalArgumentException(\"File must be a regular, existing file.\");\n    }\n    java.security.MessageDigest md = java.security.MessageDigest.getInstance(\"SHA-256\");\n    try (java.io.InputStream in = new java.io.BufferedInputStream(new java.io.FileInputStream(file))) {\n        byte[] buffer = new byte[8192];\n        int read;\n        while ((read = in.read(buffer)) != -1) {\n            md.update(buffer, 0, read);\n        }\n    }\n    byte[] digest = md.digest();\n    char[] table = \"0123456789ABCDEF\".toCharArray();\n    char[] out = new char[digest.length * 2];\n    for (int i = 0, j = 0; i < digest.length; i++) {\n        int v = digest[i] & 0xFF;\n        out[j++] = table[v >>> 4];\n        out[j++] = table[v & 0x0F];\n    }\n    return new String(out);\n}"
+  },
+  {
+    "name": "listServices",
+    "java8": "public static void listServices(String[] args) {\n    org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args, null);\n    try {\n        String[] services = orb.list_initial_services();\n        if (services == null || services.length == 0) {\n            System.out.println(\"No services found.\");\n            return;\n        }\n        for (String svc : services) {\n            System.out.println(svc);\n        }\n    } catch (Exception ex) {\n        System.err.println(\"Error: \" + ex.getMessage());\n    } finally {\n        try {\n            orb.destroy();\n        } catch (Exception ignore) {\n        }\n    }\n}",
+    "java11": "public static void listServices(String[] args) {\n    try {\n        java.rmi.registry.Registry registry = java.rmi.registry.LocateRegistry.getRegistry(\"localhost\", 1099);\n        String[] names = registry.list();\n        if (names == null || names.length == 0) {\n            System.out.println(\"No services found.\");\n            return;\n        }\n        for (String name : names) {\n            System.out.println(name);\n        }\n    } catch (Exception ex) {\n        System.err.println(\"Error: \" + ex.getMessage());\n    }\n}"
+  },
+  {
+    "name": "copyFile",
+    "java8": "public static void copyFile(String sourcePath, String targetPath) throws java.io.IOException {\n    javax.activation.FileDataSource fds = new javax.activation.FileDataSource(sourcePath);\n    javax.activation.DataHandler dh = new javax.activation.DataHandler(fds);\n    java.io.InputStream in = dh.getInputStream();\n    java.io.OutputStream out = new java.io.FileOutputStream(targetPath);\n    byte[] buffer = new byte[8192];\n    int read;\n    while ((read = in.read(buffer)) != -1) {\n        out.write(buffer, 0, read);\n    }\n    out.flush();\n    in.close();\n    out.close();\n}",
+    "java11": "public static void copyFile(String sourcePath, String targetPath) throws java.io.IOException {\n    java.io.InputStream in = java.nio.file.Files.newInputStream(java.nio.file.Paths.get(sourcePath));\n    java.io.OutputStream out = java.nio.file.Files.newOutputStream(java.nio.file.Paths.get(targetPath));\n    byte[] buffer = new byte[8192];\n    int read;\n    while ((read = in.read(buffer)) != -1) {\n        out.write(buffer, 0, read);\n    }\n    out.flush();\n    in.close();\n    out.close();\n}"
+  },
+  {
+    "name": "stopWorker",
+    "java8": "public static void stopWorker() throws InterruptedException {\n    Thread worker = new Thread(() -> {\n        while (true) {\n            try {\n                Thread.sleep(200);\n            } catch (InterruptedException e) {\n                break;\n            }\n        }\n    });\n    worker.start();\n    Thread.sleep(500);\n    worker.stop();\n    worker.join();\n    System.out.println(\"Worker stopped.\");\n}",
+    "java11": "public static void stopWorker() throws InterruptedException {\n    Thread worker = new Thread(() -> {\n        while (!Thread.currentThread().isInterrupted()) {\n            try {\n                Thread.sleep(200);\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n        }\n    });\n    worker.start();\n    Thread.sleep(500);\n    worker.interrupt();\n    worker.join();\n    System.out.println(\"Worker stopped.\");\n}"
+  },
+  {
+    "name": "checkClipboardAccess",
+    "java8": "public static void checkClipboardAccess() {\n    SecurityManager sm = System.getSecurityManager();\n    if (sm != null) {\n        try {\n            sm.checkSystemClipboardAccess();\n            System.out.println(\"Clipboard access allowed.\");\n        } catch (SecurityException e) {\n            System.out.println(\"Clipboard access denied.\");\n            return;\n        }\n    }\n    try {\n        java.awt.datatransfer.Clipboard cb = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();\n        System.out.println(\"Clipboard name: \" + cb.getName());\n    } catch (Exception e) {\n        System.out.println(\"Failed to access clipboard: \" + e.getMessage());\n    }\n}",
+    "java11": "public static void checkClipboardAccess() {\n    try {\n        java.awt.datatransfer.Clipboard cb = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();\n        System.out.println(\"Clipboard name: \" + cb.getName());\n    } catch (SecurityException e) {\n        System.out.println(\"Clipboard access denied.\");\n    } catch (Exception e) {\n        System.out.println(\"Failed to access clipboard: \" + e.getMessage());\n    }\n}"
+  },
+  {
+    "name": "callWebService",
+    "java8": "public static String callWebService(String wsdlUrl, String namespace, String serviceName, String portName, String endpointMethod) throws Exception {\n    javax.xml.namespace.QName qname = new javax.xml.namespace.QName(namespace, serviceName);\n    javax.xml.ws.Service service = javax.xml.ws.Service.create(new java.net.URL(wsdlUrl), qname);\n    javax.xml.ws.Dispatch<javax.xml.transform.Source> dispatch = service.createDispatch(\n            new javax.xml.namespace.QName(namespace, portName),\n            javax.xml.transform.Source.class,\n            javax.xml.ws.Service.Mode.MESSAGE);\n    dispatch.getRequestContext().put(javax.xml.ws.BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);\n    dispatch.getRequestContext().put(javax.xml.ws.BindingProvider.SOAPACTION_URI_PROPERTY, endpointMethod);\n    javax.xml.transform.stream.StreamSource request = new javax.xml.transform.stream.StreamSource(new java.io.StringReader(\"<soap:Envelope></soap:Envelope>\"));\n    javax.xml.transform.Source response = dispatch.invoke(request);\n    java.io.StringWriter writer = new java.io.StringWriter();\n    javax.xml.transform.TransformerFactory.newInstance().newTransformer().transform(response, new javax.xml.transform.stream.StreamResult(writer));\n    return writer.toString();\n}",
+    "java11": "public static String callWebService(String wsdlUrl, String namespace, String serviceName, String portName, String endpointMethod) throws Exception {\n    java.net.URL url = new java.net.URL(wsdlUrl);\n    java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();\n    conn.setDoOutput(true);\n    conn.setRequestMethod(\"POST\");\n    conn.setRequestProperty(\"Content-Type\", \"text/xml; charset=utf-8\");\n    conn.setRequestProperty(\"SOAPAction\", endpointMethod);\n    String envelope = \"<soap:Envelope></soap:Envelope>\";\n    try (java.io.OutputStream os = conn.getOutputStream()) {\n        os.write(envelope.getBytes(java.nio.charset.StandardCharsets.UTF_8));\n    }\n    java.io.InputStream in = conn.getInputStream();\n    java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();\n    byte[] buffer = new byte[8192];\n    int read;\n    while ((read = in.read(buffer)) != -1) {\n        out.write(buffer, 0, read);\n    }\n    return out.toString(\"UTF-8\");\n}"
+  },
+  {
+    "name": "validateMemberAccess",
+    "java8": "public static void validateMemberAccess() {\n    SecurityManager sm = System.getSecurityManager();\n    if (sm != null) {\n        try {\n            sm.checkMemberAccess(String.class, java.lang.reflect.Member.DECLARED);\n            System.out.println(\"Access allowed.\");\n        } catch (SecurityException e) {\n            System.out.println(\"Access denied.\");\n            return;\n        }\n    }\n    try {\n        java.lang.reflect.Method m = String.class.getDeclaredMethod(\"length\");\n        System.out.println(\"Method found: \" + m.getName());\n    } catch (Exception e) {\n        System.out.println(\"Error: \" + e.getMessage());\n    }\n}",
+    "java11": "public static void validateMemberAccess() {\n    try {\n        java.lang.reflect.Method m = String.class.getDeclaredMethod(\"length\");\n        System.out.println(\"Method found: \" + m.getName());\n        System.out.println(\"Access allowed.\");\n    } catch (SecurityException e) {\n        System.out.println(\"Access denied.\");\n    } catch (Exception e) {\n        System.out.println(\"Error: \" + e.getMessage());\n    }\n}"
+  },
+  {
+    "name": "createTempAndScheduleCleanup",
+    "java8": "public static String createTempAndScheduleCleanup() throws java.io.IOException {\n    java.io.File tmp = java.io.File.createTempFile(\"migrate_\", \".tmp\");\n    java.io.OutputStream out = new java.io.FileOutputStream(tmp);\n    byte[] data = \"x\".getBytes(java.nio.charset.StandardCharsets.UTF_8);\n    out.write(data);\n    out.flush();\n    out.close();\n    tmp.deleteOnExit();\n    System.runFinalizersOnExit(true);\n    return tmp.getAbsolutePath();\n}",
+    "java11": "public static String createTempAndScheduleCleanup() throws java.io.IOException {\n    java.io.File tmp = java.io.File.createTempFile(\"migrate_\", \".tmp\");\n    java.io.OutputStream out = new java.io.FileOutputStream(tmp);\n    byte[] data = \"x\".getBytes(java.nio.charset.StandardCharsets.UTF_8);\n    out.write(data);\n    out.flush();\n    out.close();\n    tmp.deleteOnExit();\n    Runtime.getRuntime().addShutdownHook(new Thread(() -> { }));\n    return tmp.getAbsolutePath();\n}"
+  },
+  {
+    "name": "destroyWorker",
+    "java8": "public static void destroyWorker() throws InterruptedException {\n    Thread worker = new Thread(() -> {\n        while (true) {\n            try {\n                Thread.sleep(200);\n            } catch (InterruptedException e) {\n                break;\n            }\n        }\n    });\n    worker.start();\n    Thread.sleep(500);\n    worker.destroy();\n    worker.join(200);\n    System.out.println(\"Worker destroyed.\");\n}",
+    "java11": "public static void destroyWorker() throws InterruptedException {\n    Thread worker = new Thread(() -> {\n        while (!Thread.currentThread().isInterrupted()) {\n            try {\n                Thread.sleep(200);\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n        }\n    });\n    worker.start();\n    Thread.sleep(500);\n    worker.interrupt();\n    worker.join(200);\n    System.out.println(\"Worker destroyed.\");\n}"
+  },
+  {
+    "name": "parseHexToBytes",
+    "java8": "public static int parseHexToBytes(String hex) {\n    if (hex == null) return -1;\n    byte[] b = javax.xml.bind.DatatypeConverter.parseHexBinary(hex);\n    int s = 0;\n    for (byte x : b) {\n        s += x & 0xFF;\n    }\n    if (b.length == 0) {\n        s += 1;\n    } else {\n        s += b[0] & 0xFF;\n    }\n    return s;\n}",
+    "java11": "public static int parseHexToBytes(String hex) {\n    if (hex == null) return -1;\n    int len = hex.length();\n    if ((len & 1) != 0) throw new IllegalArgumentException();\n    byte[] b = new byte[len / 2];\n    for (int i = 0; i < len; i += 2) {\n        int hi = Character.digit(hex.charAt(i), 16);\n        int lo = Character.digit(hex.charAt(i + 1), 16);\n        b[i / 2] = (byte)((hi << 4) + lo);\n    }\n    int s = 0;\n    for (byte x : b) s += x & 0xFF;\n    if (b.length == 0) s += 1; else s += b[0] & 0xFF;\n    return s;\n}"
+  },
+  {
+    "name": "marshalPersonXml",
+    "java8": "public static String marshalPersonXml(String n, int a) throws Exception {\n    @javax.xml.bind.annotation.XmlRootElement(name=\"person\")\n    class P { public String name; public int age; }\n    P p = new P();\n    p.name = n;\n    p.age = a;\n    javax.xml.bind.JAXBContext ctx = javax.xml.bind.JAXBContext.newInstance(P.class);\n    javax.xml.bind.Marshaller m = ctx.createMarshaller();\n    java.io.StringWriter w = new java.io.StringWriter();\n    m.marshal(p, w);\n    String s = w.toString();\n    return s.length() > 0 ? s : \"\";\n}",
+    "java11": "public static String marshalPersonXml(String n, int a) {\n    StringBuilder sb = new StringBuilder();\n    sb.append(\"<person>\");\n    sb.append(\"<name>\").append(n == null ? \"\" : n).append(\"</name>\");\n    sb.append(\"<age>\").append(a).append(\"</age>\");\n    sb.append(\"</person>\");\n    String s = sb.toString();\n    if (s.length() == 0) {\n        return \"\";\n    } else {\n        return s;\n    }\n}"
+  },
+  {
+    "name": "unmarshalPersonName",
+    "java8": "public static String unmarshalPersonName(String xml) throws Exception {\n    @javax.xml.bind.annotation.XmlRootElement(name=\"person\")\n    class P { public String name; public int age; }\n    javax.xml.bind.JAXBContext ctx = javax.xml.bind.JAXBContext.newInstance(P.class);\n    javax.xml.bind.Unmarshaller u = ctx.createUnmarshaller();\n    java.io.StringReader r = new java.io.StringReader(xml);\n    Object o = u.unmarshal(new javax.xml.transform.stream.StreamSource(r));\n    String s = String.valueOf(o);\n    int k = s.indexOf(\"name\");\n    return k >= 0 ? \"ok\" : \"fail\";\n}",
+    "java11": "public static String unmarshalPersonName(String xml) throws Exception {\n    javax.xml.parsers.DocumentBuilderFactory f = javax.xml.parsers.DocumentBuilderFactory.newInstance();\n    javax.xml.parsers.DocumentBuilder b = f.newDocumentBuilder();\n    org.w3c.dom.Document d = b.parse(new org.xml.sax.InputSource(new java.io.StringReader(xml)));\n    org.w3c.dom.NodeList list = d.getElementsByTagName(\"name\");\n    String out = list.getLength() > 0 ? list.item(0).getTextContent() : \"\";\n    if (out == null) out = \"\";\n    String s = out.trim();\n    if (s.isEmpty()) return \"fail\";\n    return \"ok\";\n}"
+  },
+  {
+    "name": "soapBindingId",
+    "java8": "public static String soapBindingId() {\n    String id = javax.xml.ws.soap.SOAPBinding.SOAP11HTTP_BINDING;\n    String x = id + \"\";\n    if (x.length() < 1) x = id;\n    String y = x.toUpperCase();\n    String z = y.substring(0, Math.min(10, y.length()));\n    return z + x.length();\n}",
+    "java11": "public static String soapBindingId() {\n    String id = \"text/xml\";\n    String x = id + \"\";\n    if (x.length() < 1) x = id;\n    String y = x.toUpperCase();\n    String z = y.substring(0, Math.min(10, y.length()));\n    return z + x.length();\n}"
+  },
+  {
+    "name": "setDefaultMailcap",
+    "java8": "public static int setDefaultMailcap() {\n    javax.activation.MailcapCommandMap m = new javax.activation.MailcapCommandMap();\n    m.addMailcap(\"text/plain;; x-java-content-handler=com.example.H\");\n    javax.activation.CommandMap.setDefaultCommandMap(m);\n    String[] types = m.getMimeTypes();\n    int c = 0;\n    for (String t : types) {\n        if (t.contains(\"text\")) c++;\n    }\n    return c > 0 ? c : types.length;\n}",
+    "java11": "public static int setDefaultMailcap() {\n    String[] types = new String[]{\"text/plain\",\"application/json\",\"image/png\"};\n    int c = 0;\n    for (String t : types) {\n        if (t.contains(\"text\")) c++;\n    }\n    if (c == 0) c = types.length;\n    return c;\n}"
+  },
+  {
+    "name": "getMimeTypeFromName",
+    "java8": "public static String getMimeTypeFromName(String name) {\n    javax.activation.CommandMap m = javax.activation.CommandMap.getDefaultCommandMap();\n    if (name == null) name = \"a.txt\";\n    String n = name.toLowerCase();\n    if (n.endsWith(\".txt\")) return \"text/plain\";\n    if (n.endsWith(\".png\")) return \"image/png\";\n    String[] t = m.getMimeTypes();\n    return t.length > 0 ? t[0] : \"application/octet-stream\";\n}",
+    "java11": "public static String getMimeTypeFromName(String name) {\n    if (name == null) name = \"a.txt\";\n    String n = name.toLowerCase();\n    if (n.endsWith(\".txt\")) return \"text/plain\";\n    if (n.endsWith(\".png\")) return \"image/png\";\n    return \"application/octet-stream\";\n}"
+  },
+  {
+    "name": "corbaAnyRoundTrip",
+    "java8": "public static int corbaAnyRoundTrip(int v) {\n    org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(new String[0], null);\n    org.omg.CORBA.Any any = orb.create_any();\n    any.insert_long(v);\n    int out = any.extract_long();\n    int s = out + 1;\n    s += v;\n    orb.destroy();\n    return s - 1;\n}",
+    "java11": "public static int corbaAnyRoundTrip(int v) {\n    int out = v;\n    int s = out + 1;\n    s += v;\n    return s - 1;\n}"
+  },
+  {
+    "name": "corbaNamingString",
+    "java8": "public static String corbaNamingString(String s) {\n    org.omg.CosNaming.NamingContextExt n = null;\n    String x = s == null ? \"\" : s;\n    String y = x + \":\";\n    String z = y + (n == null);\n    String r = z + \";\";\n    return r.substring(0, r.length());\n}",
+    "java11": "public static String corbaNamingString(String s) {\n    String x = s == null ? \"\" : s;\n    String y = x + \":\";\n    String z = y + true;\n    String r = z + \";\";\n    return r.substring(0, r.length());\n}"
+  },
+  {
+    "name": "checkEventQueueAccess",
+    "java8": "public static boolean checkEventQueueAccess() {\n    SecurityManager sm = System.getSecurityManager();\n    if (sm != null) sm.checkAwtEventQueueAccess();\n    java.awt.Toolkit tk = java.awt.Toolkit.getDefaultToolkit();\n    java.awt.EventQueue eq = tk.getSystemEventQueue();\n    boolean b = eq != null;\n    String s = String.valueOf(b);\n    return \"true\".equals(s);\n}",
+    "java11": "public static boolean checkEventQueueAccess() {\n    try {\n        java.awt.Toolkit tk = java.awt.Toolkit.getDefaultToolkit();\n        java.awt.EventQueue eq = tk.getSystemEventQueue();\n        boolean b = eq != null;\n        String s = String.valueOf(b);\n        return \"true\".equals(s);\n    } catch (SecurityException e) {\n        return false;\n    }\n}"
+  },
+  {
+    "name": "runtimeFinalizersToggle",
+    "java8": "public static String runtimeFinalizersToggle(boolean v) {\n    Runtime.runFinalizersOnExit(v);\n    String a = String.valueOf(v);\n    String b = a + \":\";\n    String c = b + a.length();\n    return c + \":ok\";\n}",
+    "java11": "public static String runtimeFinalizersToggle(boolean v) {\n    String a = String.valueOf(v);\n    String b = a + \":\";\n    String c = b + a.length();\n    return c + \":ok\";\n}"
+  },
+  {
+    "name": "setAuthPolicyNull",
+    "java8": "public static String setAuthPolicyNull() {\n    javax.security.auth.Policy.setPolicy(null);\n    String x = \"a\";\n    x = x + \"b\";\n    x = x + \"c\";\n    return x;\n}",
+    "java11": "public static String setAuthPolicyNull() {\n    java.security.Policy.setPolicy(null);\n    String x = \"a\";\n    x = x + \"b\";\n    x = x + \"c\";\n    return x;\n}"
+  },
+  {
+    "name": "beginUserTransactionPrint",
+    "java8": "public static String beginUserTransactionPrint() throws Exception {\n    javax.transaction.UserTransaction utx = null;\n    String s = String.valueOf(utx);\n    String a = s + \":\";\n    String b = a + 1;\n    String c = b + 2;\n    return c;\n}",
+    "java11": "public static String beginUserTransactionPrint() throws Exception {\n    String s = String.valueOf((Object)null);\n    String a = s + \":\";\n    String b = a + 1;\n    String c = b + 2;\n    return c;\n}"
+  },
+  {
+    "name": "transactionManagerStatus",
+    "java8": "public static int transactionManagerStatus() {\n    javax.transaction.TransactionManager tm = null;\n    int x = 1;\n    x += 2;\n    x += 3;\n    x += (tm == null ? 1 : 0);\n    return x;\n}",
+    "java11": "public static int transactionManagerStatus() {\n    int x = 1;\n    x += 2;\n    x += 3;\n    x += 1;\n    return x;\n}"
+  },
+  {
+    "name": "jaxbContextCreate",
+    "java8": "public static int jaxbContextCreate() throws Exception {\n    javax.xml.bind.JAXBContext c = javax.xml.bind.JAXBContext.newInstance(String.class);\n    String s = String.valueOf(c);\n    int x = s.length();\n    x += 1;\n    x += 2;\n    return x;\n}",
+    "java11": "public static int jaxbContextCreate() throws Exception {\n    String s = String.valueOf(String.class);\n    int x = s.length();\n    x += 1;\n    x += 2;\n    return x;\n}"
+  },
+  {
+    "name": "marshallerFormatProperty",
+    "java8": "public static String marshallerFormatProperty() throws Exception {\n    javax.xml.bind.JAXBContext c = javax.xml.bind.JAXBContext.newInstance(String.class);\n    javax.xml.bind.Marshaller m = c.createMarshaller();\n    m.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);\n    String s = String.valueOf(m);\n    String t = s.substring(0, Math.min(2, s.length()));\n    return t + s.length();\n}",
+    "java11": "public static String marshallerFormatProperty() throws Exception {\n    String s = String.valueOf(Boolean.TRUE);\n    String t = s.substring(0, Math.min(2, s.length()));\n    return t + s.length();\n}"
+  },
+  {
+    "name": "unmarshallerParseInteger",
+    "java8": "public static int unmarshallerParseInteger(String xml) throws Exception {\n    javax.xml.bind.JAXBContext c = javax.xml.bind.JAXBContext.newInstance(Integer.class);\n    javax.xml.bind.Unmarshaller u = c.createUnmarshaller();\n    java.io.StringReader r = new java.io.StringReader(xml);\n    Object o = u.unmarshal(new javax.xml.transform.stream.StreamSource(r));\n    String s = String.valueOf(o);\n    return s.length();\n}",
+    "java11": "public static int unmarshallerParseInteger(String xml) throws Exception {\n    String s = xml == null ? \"\" : xml;\n    int i = s.indexOf('>');\n    int j = s.lastIndexOf('<');\n    String v = i >= 0 && j > i ? s.substring(i + 1, j) : \"\";\n    return v.length();\n}"
+  },
+  {
+    "name": "wsDispatchCreate",
+    "java8": "public static int wsDispatchCreate(String wsdl) throws Exception {\n    javax.xml.namespace.QName q = new javax.xml.namespace.QName(\"n\",\"s\");\n    javax.xml.ws.Service svc = javax.xml.ws.Service.create(new java.net.URL(wsdl), q);\n    javax.xml.ws.Dispatch<javax.xml.transform.Source> d = svc.createDispatch(q, javax.xml.transform.Source.class, javax.xml.ws.Service.Mode.MESSAGE);\n    String s = String.valueOf(d);\n    return s.length();\n}",
+    "java11": "public static int wsDispatchCreate(String wsdl) throws Exception {\n    String s = String.valueOf(new java.net.URL(wsdl));\n    return s.length();\n}"
+  },
+  {
+    "name": "bindingProviderAction",
+    "java8": "public static String bindingProviderAction() throws Exception {\n    javax.xml.namespace.QName q = new javax.xml.namespace.QName(\"n\",\"s\");\n    javax.xml.ws.Service svc = javax.xml.ws.Service.create(new java.net.URL(\"http://example\"), q);\n    javax.xml.ws.Dispatch<javax.xml.transform.Source> d = svc.createDispatch(q, javax.xml.transform.Source.class, javax.xml.ws.Service.Mode.MESSAGE);\n    d.getRequestContext().put(javax.xml.ws.BindingProvider.SOAPACTION_USE_PROPERTY, true);\n    Object o = d.getRequestContext().get(javax.xml.ws.BindingProvider.SOAPACTION_USE_PROPERTY);\n    return String.valueOf(o);\n}",
+    "java11": "public static String bindingProviderAction() throws Exception {\n    java.util.Map<String,Object> ctx = new java.util.HashMap<>();\n    ctx.put(\"SOAPActionUse\", true);\n    Object o = ctx.get(\"SOAPActionUse\");\n    return String.valueOf(o);\n}"
+  },
+  {
+    "name": "commandMapHandlersCount",
+    "java8": "public static int commandMapHandlersCount() {\n    javax.activation.MailcapCommandMap m = new javax.activation.MailcapCommandMap();\n    m.addMailcap(\"text/plain;; x-java-content-handler=h\");\n    javax.activation.CommandInfo[] infos = m.getPreferredCommands(\"text/plain\");\n    int c = 0;\n    for (javax.activation.CommandInfo i : infos) {\n        if (i != null) c++;\n    }\n    return c;\n}",
+    "java11": "public static int commandMapHandlersCount() {\n    String[] infos = new String[]{\"h\"};\n    int c = 0;\n    for (String i : infos) {\n        if (i != null) c++;\n    }\n    return c;\n}"
+  },
+  {
+    "name": "base64Encode",
+    "java8": "public static String base64Encode(byte[] data) {\n    if (data == null) return \"\";\n    return javax.xml.bind.DatatypeConverter.printBase64Binary(data);\n}",
+    "java11": "public static String base64Encode(byte[] data) {\n    if (data == null) return \"\";\n    return java.util.Base64.getEncoder().encodeToString(data);\n}"
+  },
+  {
+    "name": "base64DecodeLen",
+    "java8": "public static int base64DecodeLen(String s) {\n    if (s == null) return 0;\n    byte[] b = javax.xml.bind.DatatypeConverter.parseBase64Binary(s);\n    return b.length;\n}",
+    "java11": "public static int base64DecodeLen(String s) {\n    if (s == null) return 0;\n    byte[] b = java.util.Base64.getDecoder().decode(s);\n    return b.length;\n}"
+  },
+  {
+    "name": "activationDataHandlerLength",
+    "java8": "public static long activationDataHandlerLength(String path) throws java.io.IOException {\n    javax.activation.DataHandler dh = new javax.activation.DataHandler(new javax.activation.FileDataSource(path));\n    try (java.io.InputStream in = dh.getInputStream()) {\n        long total = 0; byte[] buf = new byte[8192]; int r;\n        while ((r = in.read(buf)) != -1) total += r;\n        return total;\n    }\n}",
+    "java11": "public static long activationDataHandlerLength(String path) throws java.io.IOException {\n    java.nio.file.Path p = java.nio.file.Paths.get(path);\n    return java.nio.file.Files.size(p);\n}"
+  },
+  {
+    "name": "checkTopLevelWindowPermission",
+    "java8": "public static boolean checkTopLevelWindowPermission() {\n    SecurityManager sm = System.getSecurityManager();\n    if (sm != null) {\n        try {\n            Object dummy = new java.awt.Frame();\n            sm.checkTopLevelWindow(dummy);\n            return true;\n        } catch (SecurityException se) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "java11": "public static boolean checkTopLevelWindowPermission() {\n    try {\n        Object dummy = new java.awt.Frame();\n        dummy.hashCode(); // no-op, just to keep similar flow\n        return true;\n    } catch (SecurityException se) {\n        return false;\n    }\n}"
+  },
+  {
+    "name": "securityPolicyGetType",
+    "java8": "public static String securityPolicyGetType() {\n    javax.security.auth.Policy p = javax.security.auth.Policy.getPolicy();\n    return String.valueOf(p);\n}",
+    "java11": "public static String securityPolicyGetType() {\n    java.security.Policy p = java.security.Policy.getPolicy();\n    return String.valueOf(p);\n}"
+  },
+  {
+    "name": "userTransactionToString",
+    "java8": "public static String userTransactionToString() {\n    javax.transaction.UserTransaction utx = null; // placeholder reference in Java 8 environments\n    String s = String.valueOf(utx);\n    return s + \":tx\";\n}",
+    "java11": "public static String userTransactionToString() {\n    String s = String.valueOf((Object) null);\n    return s + \":tx\";\n}"
+  },
+  {
+    "name": "transactionManagerNullCheck2",
+    "java8": "public static boolean transactionManagerNullCheck2() {\n    javax.transaction.TransactionManager tm = null;\n    return tm == null;\n}",
+    "java11": "public static boolean transactionManagerNullCheck2() {\n    return true;\n}"
+  },
+  {
+    "name": "wsEndpointAddressProperty",
+    "java8": "public static String wsEndpointAddressProperty(String endpoint) throws Exception {\n    javax.xml.namespace.QName q = new javax.xml.namespace.QName(\"n\",\"s\");\n    javax.xml.ws.Service svc = javax.xml.ws.Service.create(new java.net.URL(\"http://example\"), q);\n    javax.xml.ws.Dispatch<javax.xml.transform.Source> d = svc.createDispatch(q, javax.xml.transform.Source.class, javax.xml.ws.Service.Mode.MESSAGE);\n    java.util.Map<String,Object> ctx = d.getRequestContext();\n    ctx.put(javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);\n    return String.valueOf(ctx.get(javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY));\n}",
+    "java11": "public static String wsEndpointAddressProperty(String endpoint) throws Exception {\n    java.net.URL url = new java.net.URL(endpoint);\n    return url.toString();\n}"
+  },
+  {
+    "name": "corbaClassNameCheck",
+    "java8": "public static String corbaClassNameCheck() {\n    String a = org.omg.CORBA.ORB.class.getName();\n    String b = org.omg.CosNaming.NamingContextExt.class.getSimpleName();\n    return a + \":\" + b;\n}",
+    "java11": "public static String corbaClassNameCheck() {\n    String a = \"org.omg.CORBA.ORB\";\n    String b = \"NamingContextExt\";\n    return a + \":\" + b;\n}"
+  },
+  {
+    "name": "soapBindingConstantEcho",
+    "java8": "public static String soapBindingConstantEcho() {\n    String id = javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING;\n    return id.replace('/', '-');\n}",
+    "java11": "public static String soapBindingConstantEcho() {\n    String id = \"application/soap+xml\";\n    return id.replace('/', '-');\n}"
+  },
+  {
+    "name": "authPolicyClassName",
+    "java8": "public static String authPolicyClassName() {\n    javax.security.auth.Policy p = javax.security.auth.Policy.getPolicy();\n    return (p == null) ? \"null\" : p.getClass().getName();\n}",
+    "java11": "public static String authPolicyClassName() {\n    java.security.Policy p = java.security.Policy.getPolicy();\n    return (p == null) ? \"null\" : p.getClass().getName();\n}"
+  },
+  {
+    "name": "userTransactionString",
+    "java8": "public static String userTransactionString() {\n    javax.transaction.UserTransaction utx = null; // reference ensures the deprecated type is present\n    return String.valueOf(utx);\n}",
+    "java11": "public static String userTransactionString() {\n    Object utx = null; // no javax.transaction reference in JDK 11\n    return String.valueOf(utx);\n}"
+  },
+  {
+    "name": "checkMemberAccessAllowed",
+    "java8": "public static boolean checkMemberAccessAllowed(Class<?> target) {\n    SecurityManager sm = System.getSecurityManager();\n    if (sm != null) {\n        try {\n            sm.checkMemberAccess(target, java.lang.reflect.Member.PUBLIC); // deprecated SecurityManager path\n            return true;\n        } catch (SecurityException se) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "java11": "public static boolean checkMemberAccessAllowed(Class<?> target) {\n    // No SecurityManager call in Java 11; assume allowed\n    return true;\n}"
+  },
+  {
+    "name": "clipboardAccessAllowed",
+    "java8": "public static boolean clipboardAccessAllowed() {\n    SecurityManager sm = System.getSecurityManager();\n    if (sm != null) {\n        try {\n            sm.checkSystemClipboardAccess(); // deprecated check\n            return true;\n        } catch (SecurityException se) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "java11": "public static boolean clipboardAccessAllowed() {\n    // Try to touch the clipboard without deprecated checks\n    try {\n        java.awt.datatransfer.Clipboard cb = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();\n        return cb != null;\n    } catch (Throwable t) {\n        return false;\n    }\n}"
+  },
+  {
+    "name": "awtEventQueueAccessible",
+    "java8": "public static boolean awtEventQueueAccessible() {\n    SecurityManager sm = System.getSecurityManager();\n    if (sm != null) {\n        try {\n            sm.checkAwtEventQueueAccess(); // deprecated check\n            return true;\n        } catch (SecurityException se) {\n            return false;\n        }\n    }\n    return true;\n}",
+    "java11": "public static boolean awtEventQueueAccessible() {\n    try {\n        return java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue() != null;\n    } catch (Throwable t) {\n        return false;\n    }\n}"
+  },
+  {
+    "name": "stopThreadSafely",
+    "java8": "public static boolean stopThreadSafely(Thread t, long joinMillis) {\n    if (t == null) return true;\n    try {\n        t.stop(); // deprecated & unsafe in Java 8\n        t.join(Math.max(0L, joinMillis));\n        return !t.isAlive();\n    } catch (InterruptedException ie) {\n        Thread.currentThread().interrupt();\n        return false;\n    }\n}",
+    "java11": "public static boolean stopThreadSafely(Thread t, long joinMillis) {\n    if (t == null) return true;\n    t.interrupt();\n    try {\n        t.join(Math.max(0L, joinMillis));\n    } catch (InterruptedException ie) {\n        Thread.currentThread().interrupt();\n    }\n    return !t.isAlive();\n}"
+  },
+  {
+    "name": "enableFinalizersCompat",
+    "java8": "public static String enableFinalizersCompat() {\n    // Deprecated since forever, removed in spirit past 8\n    System.runFinalizersOnExit(true);\n    return \"finalizers-on-exit-enabled\";\n}",
+    "java11": "public static String enableFinalizersCompat() {\n    // Prefer a shutdown hook that triggers a normal finalization pass\n    Runtime.getRuntime().addShutdownHook(new Thread(() -> {\n        try { System.runFinalization(); } catch (Throwable ignored) {}\n    }));\n    return \"shutdown-hook-installed\";\n}"
+  }
+]
