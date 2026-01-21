@@ -1,4 +1,0 @@
-public static boolean checkMemberAccessAllowed(Class<?> target) {
-    // No SecurityManager call in Java 11; assume allowed
-    return true;
-}

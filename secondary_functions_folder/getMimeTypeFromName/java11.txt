@@ -1,7 +1,0 @@
-public static String getMimeTypeFromName(String name) {
-    if (name == null) name = "a.txt";
-    String n = name.toLowerCase();
-    if (n.endsWith(".txt")) return "text/plain";
-    if (n.endsWith(".png")) return "image/png";
-    return "application/octet-stream";
-}

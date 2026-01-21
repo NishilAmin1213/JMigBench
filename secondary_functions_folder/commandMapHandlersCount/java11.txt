@@ -1,8 +1,0 @@
-public static int commandMapHandlersCount() {
-    String[] infos = new String[]{"h"};
-    int c = 0;
-    for (String i : infos) {
-        if (i != null) c++;
-    }
-    return c;
-}

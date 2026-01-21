@@ -1,9 +1,0 @@
-public static boolean checkTopLevelWindowPermission() {
-    try {
-        Object dummy = new java.awt.Frame();
-        dummy.hashCode(); // no-op, just to keep similar flow
-        return true;
-    } catch (SecurityException se) {
-        return false;
-    }
-}

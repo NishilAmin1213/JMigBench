@@ -1,4 +1,0 @@
-public static String userTransactionString() {
-    Object utx = null; // no javax.transaction reference in JDK 11
-    return String.valueOf(utx);
-}

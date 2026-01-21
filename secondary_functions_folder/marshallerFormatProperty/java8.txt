@@ -1,8 +1,0 @@
-public static String marshallerFormatProperty() throws Exception {
-    javax.xml.bind.JAXBContext c = javax.xml.bind.JAXBContext.newInstance(String.class);
-    javax.xml.bind.Marshaller m = c.createMarshaller();
-    m.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    String s = String.valueOf(m);
-    String t = s.substring(0, Math.min(2, s.length()));
-    return t + s.length();
-}

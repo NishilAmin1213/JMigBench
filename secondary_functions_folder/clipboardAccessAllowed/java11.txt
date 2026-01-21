@@ -1,9 +1,0 @@
-public static boolean clipboardAccessAllowed() {
-    // Try to touch the clipboard without deprecated checks
-    try {
-        java.awt.datatransfer.Clipboard cb = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
-        return cb != null;
-    } catch (Throwable t) {
-        return false;
-    }
-}

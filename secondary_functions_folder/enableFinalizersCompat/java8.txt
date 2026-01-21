@@ -1,5 +1,0 @@
-public static String enableFinalizersCompat() {
-    // Deprecated since forever, removed in spirit past 8
-    System.runFinalizersOnExit(true);
-    return "finalizers-on-exit-enabled";
-}

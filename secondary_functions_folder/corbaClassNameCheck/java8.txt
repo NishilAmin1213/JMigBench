@@ -1,5 +1,0 @@
-public static String corbaClassNameCheck() {
-    String a = org.omg.CORBA.ORB.class.getName();
-    String b = org.omg.CosNaming.NamingContextExt.class.getSimpleName();
-    return a + ":" + b;
-}

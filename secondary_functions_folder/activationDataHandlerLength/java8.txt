@@ -1,8 +1,0 @@
-public static long activationDataHandlerLength(String path) throws java.io.IOException {
-    javax.activation.DataHandler dh = new javax.activation.DataHandler(new javax.activation.FileDataSource(path));
-    try (java.io.InputStream in = dh.getInputStream()) {
-        long total = 0; byte[] buf = new byte[8192]; int r;
-        while ((r = in.read(buf)) != -1) total += r;
-        return total;
-    }
-}

@@ -1,8 +1,0 @@
-public static String soapBindingId() {
-    String id = javax.xml.ws.soap.SOAPBinding.SOAP11HTTP_BINDING;
-    String x = id + "";
-    if (x.length() < 1) x = id;
-    String y = x.toUpperCase();
-    String z = y.substring(0, Math.min(10, y.length()));
-    return z + x.length();
-}

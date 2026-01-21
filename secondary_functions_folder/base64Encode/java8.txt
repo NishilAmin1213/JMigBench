@@ -1,4 +1,0 @@
-public static String base64Encode(byte[] data) {
-    if (data == null) return "";
-    return javax.xml.bind.DatatypeConverter.printBase64Binary(data);
-}

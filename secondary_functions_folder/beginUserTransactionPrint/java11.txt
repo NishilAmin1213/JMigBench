@@ -1,7 +1,0 @@
-public static String beginUserTransactionPrint() throws Exception {
-    String s = String.valueOf((Object)null);
-    String a = s + ":";
-    String b = a + 1;
-    String c = b + 2;
-    return c;
-}

@@ -1,8 +1,0 @@
-public static String corbaNamingString(String s) {
-    org.omg.CosNaming.NamingContextExt n = null;
-    String x = s == null ? "" : s;
-    String y = x + ":";
-    String z = y + (n == null);
-    String r = z + ";";
-    return r.substring(0, r.length());
-}

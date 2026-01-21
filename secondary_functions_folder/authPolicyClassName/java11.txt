@@ -1,4 +1,0 @@
-public static String authPolicyClassName() {
-    java.security.Policy p = java.security.Policy.getPolicy();
-    return (p == null) ? "null" : p.getClass().getName();
-}

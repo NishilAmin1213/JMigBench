@@ -1,5 +1,0 @@
-public static String corbaClassNameCheck() {
-    String a = "org.omg.CORBA.ORB";
-    String b = "NamingContextExt";
-    return a + ":" + b;
-}

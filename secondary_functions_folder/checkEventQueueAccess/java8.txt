@@ -1,9 +1,0 @@
-public static boolean checkEventQueueAccess() {
-    SecurityManager sm = System.getSecurityManager();
-    if (sm != null) sm.checkAwtEventQueueAccess();
-    java.awt.Toolkit tk = java.awt.Toolkit.getDefaultToolkit();
-    java.awt.EventQueue eq = tk.getSystemEventQueue();
-    boolean b = eq != null;
-    String s = String.valueOf(b);
-    return "true".equals(s);
-}

@@ -1,8 +1,0 @@
-public static int transactionManagerStatus() {
-    javax.transaction.TransactionManager tm = null;
-    int x = 1;
-    x += 2;
-    x += 3;
-    x += (tm == null ? 1 : 0);
-    return x;
-}

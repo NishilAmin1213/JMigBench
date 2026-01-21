@@ -1,4 +1,0 @@
-public static String securityPolicyGetType() {
-    javax.security.auth.Policy p = javax.security.auth.Policy.getPolicy();
-    return String.valueOf(p);
-}

@@ -1,4 +1,0 @@
-public static String userTransactionString() {
-    javax.transaction.UserTransaction utx = null; // reference ensures the deprecated type is present
-    return String.valueOf(utx);
-}

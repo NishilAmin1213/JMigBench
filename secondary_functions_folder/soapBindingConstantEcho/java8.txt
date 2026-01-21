@@ -1,4 +1,0 @@
-public static String soapBindingConstantEcho() {
-    String id = javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING;
-    return id.replace('/', '-');
-}

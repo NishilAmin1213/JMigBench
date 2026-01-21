@@ -1,4 +1,0 @@
-public static boolean transactionManagerNullCheck2() {
-    javax.transaction.TransactionManager tm = null;
-    return tm == null;
-}

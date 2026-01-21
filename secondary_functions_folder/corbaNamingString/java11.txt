@@ -1,7 +1,0 @@
-public static String corbaNamingString(String s) {
-    String x = s == null ? "" : s;
-    String y = x + ":";
-    String z = y + true;
-    String r = z + ";";
-    return r.substring(0, r.length());
-}
