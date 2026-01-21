@@ -1,0 +1,14 @@
+public static void copyFile(String sourcePath, String targetPath) throws java.io.IOException {
+    javax.activation.FileDataSource fds = new javax.activation.FileDataSource(sourcePath);
+    javax.activation.DataHandler dh = new javax.activation.DataHandler(fds);
+    java.io.InputStream in = dh.getInputStream();
+    java.io.OutputStream out = new java.io.FileOutputStream(targetPath);
+    byte[] buffer = new byte[8192];
+    int read;
+    while ((read = in.read(buffer)) != -1) {
+        out.write(buffer, 0, read);
+    }
+    out.flush();
+    in.close();
+    out.close();
+}

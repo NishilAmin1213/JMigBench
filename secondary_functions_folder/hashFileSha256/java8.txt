@@ -1,0 +1,16 @@
+public static String hashFileSha256(java.io.File file) throws java.io.IOException, java.security.NoSuchAlgorithmException {
+    if (file == null || !file.isFile()) {
+        throw new IllegalArgumentException("File must be a regular, existing file.");
+    }
+    java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+    try (java.io.InputStream in = new java.io.BufferedInputStream(new java.io.FileInputStream(file))) {
+        byte[] buffer = new byte[8192];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            md.update(buffer, 0, read);
+        }
+    }
+    byte[] digest = md.digest();
+    String hex = javax.xml.bind.DatatypeConverter.printHexBinary(digest);
+    return hex.trim();
+}

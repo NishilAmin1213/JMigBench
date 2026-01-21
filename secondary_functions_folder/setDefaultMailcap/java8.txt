@@ -1,0 +1,11 @@
+public static int setDefaultMailcap() {
+    javax.activation.MailcapCommandMap m = new javax.activation.MailcapCommandMap();
+    m.addMailcap("text/plain;; x-java-content-handler=com.example.H");
+    javax.activation.CommandMap.setDefaultCommandMap(m);
+    String[] types = m.getMimeTypes();
+    int c = 0;
+    for (String t : types) {
+        if (t.contains("text")) c++;
+    }
+    return c > 0 ? c : types.length;
+}

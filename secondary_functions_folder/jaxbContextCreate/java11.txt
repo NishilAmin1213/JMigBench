@@ -1,0 +1,7 @@
+public static int jaxbContextCreate() throws Exception {
+    String s = String.valueOf(String.class);
+    int x = s.length();
+    x += 1;
+    x += 2;
+    return x;
+}

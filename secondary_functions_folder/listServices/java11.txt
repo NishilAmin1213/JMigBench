@@ -1,0 +1,15 @@
+public static void listServices(String[] args) {
+    try {
+        java.rmi.registry.Registry registry = java.rmi.registry.LocateRegistry.getRegistry("localhost", 1099);
+        String[] names = registry.list();
+        if (names == null || names.length == 0) {
+            System.out.println("No services found.");
+            return;
+        }
+        for (String name : names) {
+            System.out.println(name);
+        }
+    } catch (Exception ex) {
+        System.err.println("Error: " + ex.getMessage());
+    }
+}

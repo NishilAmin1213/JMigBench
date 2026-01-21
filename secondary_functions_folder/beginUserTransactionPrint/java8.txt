@@ -1,0 +1,8 @@
+public static String beginUserTransactionPrint() throws Exception {
+    javax.transaction.UserTransaction utx = null;
+    String s = String.valueOf(utx);
+    String a = s + ":";
+    String b = a + 1;
+    String c = b + 2;
+    return c;
+}

@@ -1,0 +1,16 @@
+public static void destroyWorker() throws InterruptedException {
+    Thread worker = new Thread(() -> {
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    });
+    worker.start();
+    Thread.sleep(500);
+    worker.interrupt();
+    worker.join(200);
+    System.out.println("Worker destroyed.");
+}

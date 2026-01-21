@@ -1,0 +1,20 @@
+public static String callWebService(String wsdlUrl, String namespace, String serviceName, String portName, String endpointMethod) throws Exception {
+    java.net.URL url = new java.net.URL(wsdlUrl);
+    java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
+    conn.setDoOutput(true);
+    conn.setRequestMethod("POST");
+    conn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+    conn.setRequestProperty("SOAPAction", endpointMethod);
+    String envelope = "<soap:Envelope></soap:Envelope>";
+    try (java.io.OutputStream os = conn.getOutputStream()) {
+        os.write(envelope.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    }
+    java.io.InputStream in = conn.getInputStream();
+    java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+    byte[] buffer = new byte[8192];
+    int read;
+    while ((read = in.read(buffer)) != -1) {
+        out.write(buffer, 0, read);
+    }
+    return out.toString("UTF-8");
+}

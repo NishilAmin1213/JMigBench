@@ -1,0 +1,7 @@
+public static int unmarshallerParseInteger(String xml) throws Exception {
+    String s = xml == null ? "" : xml;
+    int i = s.indexOf('>');
+    int j = s.lastIndexOf('<');
+    String v = i >= 0 && j > i ? s.substring(i + 1, j) : "";
+    return v.length();
+}

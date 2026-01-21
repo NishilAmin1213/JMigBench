@@ -1,0 +1,7 @@
+public static String runtimeFinalizersToggle(boolean v) {
+    Runtime.runFinalizersOnExit(v);
+    String a = String.valueOf(v);
+    String b = a + ":";
+    String c = b + a.length();
+    return c + ":ok";
+}

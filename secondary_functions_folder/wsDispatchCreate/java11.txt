@@ -1,0 +1,4 @@
+public static int wsDispatchCreate(String wsdl) throws Exception {
+    String s = String.valueOf(new java.net.URL(wsdl));
+    return s.length();
+}

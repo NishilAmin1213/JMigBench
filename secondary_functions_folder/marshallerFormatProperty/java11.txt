@@ -1,0 +1,5 @@
+public static String marshallerFormatProperty() throws Exception {
+    String s = String.valueOf(Boolean.TRUE);
+    String t = s.substring(0, Math.min(2, s.length()));
+    return t + s.length();
+}

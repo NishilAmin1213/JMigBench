@@ -1,0 +1,8 @@
+public static int unmarshallerParseInteger(String xml) throws Exception {
+    javax.xml.bind.JAXBContext c = javax.xml.bind.JAXBContext.newInstance(Integer.class);
+    javax.xml.bind.Unmarshaller u = c.createUnmarshaller();
+    java.io.StringReader r = new java.io.StringReader(xml);
+    Object o = u.unmarshal(new javax.xml.transform.stream.StreamSource(r));
+    String s = String.valueOf(o);
+    return s.length();
+}

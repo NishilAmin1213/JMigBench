@@ -1,0 +1,18 @@
+public static void validateMemberAccess() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+        try {
+            sm.checkMemberAccess(String.class, java.lang.reflect.Member.DECLARED);
+            System.out.println("Access allowed.");
+        } catch (SecurityException e) {
+            System.out.println("Access denied.");
+            return;
+        }
+    }
+    try {
+        java.lang.reflect.Method m = String.class.getDeclaredMethod("length");
+        System.out.println("Method found: " + m.getName());
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+    }
+}

@@ -1,0 +1,4 @@
+public static String wsEndpointAddressProperty(String endpoint) throws Exception {
+    java.net.URL url = new java.net.URL(endpoint);
+    return url.toString();
+}

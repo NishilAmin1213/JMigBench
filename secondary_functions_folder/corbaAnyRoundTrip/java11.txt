@@ -1,0 +1,6 @@
+public static int corbaAnyRoundTrip(int v) {
+    int out = v;
+    int s = out + 1;
+    s += v;
+    return s - 1;
+}

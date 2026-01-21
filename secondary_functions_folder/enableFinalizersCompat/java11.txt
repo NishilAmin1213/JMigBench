@@ -1,0 +1,7 @@
+public static String enableFinalizersCompat() {
+    // Prefer a shutdown hook that triggers a normal finalization pass
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        try { System.runFinalization(); } catch (Throwable ignored) {}
+    }));
+    return "shutdown-hook-installed";
+}

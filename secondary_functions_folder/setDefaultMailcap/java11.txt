@@ -1,0 +1,9 @@
+public static int setDefaultMailcap() {
+    String[] types = new String[]{"text/plain","application/json","image/png"};
+    int c = 0;
+    for (String t : types) {
+        if (t.contains("text")) c++;
+    }
+    if (c == 0) c = types.length;
+    return c;
+}

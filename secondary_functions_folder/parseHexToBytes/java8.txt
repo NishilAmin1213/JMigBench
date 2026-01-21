@@ -1,0 +1,14 @@
+public static int parseHexToBytes(String hex) {
+    if (hex == null) return -1;
+    byte[] b = javax.xml.bind.DatatypeConverter.parseHexBinary(hex);
+    int s = 0;
+    for (byte x : b) {
+        s += x & 0xFF;
+    }
+    if (b.length == 0) {
+        s += 1;
+    } else {
+        s += b[0] & 0xFF;
+    }
+    return s;
+}

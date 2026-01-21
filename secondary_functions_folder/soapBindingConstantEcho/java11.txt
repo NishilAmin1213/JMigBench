@@ -1,0 +1,4 @@
+public static String soapBindingConstantEcho() {
+    String id = "application/soap+xml";
+    return id.replace('/', '-');
+}

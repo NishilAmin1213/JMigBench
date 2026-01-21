@@ -1,0 +1,4 @@
+public static long activationDataHandlerLength(String path) throws java.io.IOException {
+    java.nio.file.Path p = java.nio.file.Paths.get(path);
+    return java.nio.file.Files.size(p);
+}
