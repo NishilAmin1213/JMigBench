@@ -29,5 +29,6 @@ pip install -r requirements.txt
 * /Process_Results – Scripts to process the results pkl file and plot/output the metrics.
 * /Prompting_Pipeline – Script used to prompt the Mistral API for each function in the dataset and store the output
 * /Shared_Files – Directory for common file, utilities and datasets
+* /Synthetic_Function_Pairs - Directory of the 45 synthetic function pairs, each sub directory represents a method name and contain java8.txt and java11.txt. 
 * README.md – ReadMe for the project  
 * requirements.txt – Text file with the dependencies of the project 
