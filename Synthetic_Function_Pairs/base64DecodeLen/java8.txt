@@ -1,0 +1,5 @@
+public static int base64DecodeLen(String s) {
+    if (s == null) return 0;
+    byte[] b = javax.xml.bind.DatatypeConverter.parseBase64Binary(s);
+    return b.length;
+}

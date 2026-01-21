@@ -1,0 +1,9 @@
+public static String getMimeTypeFromName(String name) {
+    javax.activation.CommandMap m = javax.activation.CommandMap.getDefaultCommandMap();
+    if (name == null) name = "a.txt";
+    String n = name.toLowerCase();
+    if (n.endsWith(".txt")) return "text/plain";
+    if (n.endsWith(".png")) return "image/png";
+    String[] t = m.getMimeTypes();
+    return t.length > 0 ? t[0] : "application/octet-stream";
+}

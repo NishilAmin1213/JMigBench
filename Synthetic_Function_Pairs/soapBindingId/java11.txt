@@ -1,0 +1,8 @@
+public static String soapBindingId() {
+    String id = "text/xml";
+    String x = id + "";
+    if (x.length() < 1) x = id;
+    String y = x.toUpperCase();
+    String z = y.substring(0, Math.min(10, y.length()));
+    return z + x.length();
+}

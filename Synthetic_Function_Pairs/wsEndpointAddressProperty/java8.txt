@@ -1,0 +1,8 @@
+public static String wsEndpointAddressProperty(String endpoint) throws Exception {
+    javax.xml.namespace.QName q = new javax.xml.namespace.QName("n","s");
+    javax.xml.ws.Service svc = javax.xml.ws.Service.create(new java.net.URL("http://example"), q);
+    javax.xml.ws.Dispatch<javax.xml.transform.Source> d = svc.createDispatch(q, javax.xml.transform.Source.class, javax.xml.ws.Service.Mode.MESSAGE);
+    java.util.Map<String,Object> ctx = d.getRequestContext();
+    ctx.put(javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
+    return String.valueOf(ctx.get(javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
+}

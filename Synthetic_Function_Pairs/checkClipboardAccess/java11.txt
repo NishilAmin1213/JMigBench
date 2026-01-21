@@ -1,0 +1,10 @@
+public static void checkClipboardAccess() {
+    try {
+        java.awt.datatransfer.Clipboard cb = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
+        System.out.println("Clipboard name: " + cb.getName());
+    } catch (SecurityException e) {
+        System.out.println("Clipboard access denied.");
+    } catch (Exception e) {
+        System.out.println("Failed to access clipboard: " + e.getMessage());
+    }
+}

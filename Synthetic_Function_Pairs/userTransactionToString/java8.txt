@@ -1,0 +1,5 @@
+public static String userTransactionToString() {
+    javax.transaction.UserTransaction utx = null; // placeholder reference in Java 8 environments
+    String s = String.valueOf(utx);
+    return s + ":tx";
+}

@@ -1,0 +1,7 @@
+public static int wsDispatchCreate(String wsdl) throws Exception {
+    javax.xml.namespace.QName q = new javax.xml.namespace.QName("n","s");
+    javax.xml.ws.Service svc = javax.xml.ws.Service.create(new java.net.URL(wsdl), q);
+    javax.xml.ws.Dispatch<javax.xml.transform.Source> d = svc.createDispatch(q, javax.xml.transform.Source.class, javax.xml.ws.Service.Mode.MESSAGE);
+    String s = String.valueOf(d);
+    return s.length();
+}

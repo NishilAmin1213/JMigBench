@@ -1,0 +1,4 @@
+public static String base64Encode(byte[] data) {
+    if (data == null) return "";
+    return java.util.Base64.getEncoder().encodeToString(data);
+}

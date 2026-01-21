@@ -1,0 +1,8 @@
+public static int jaxbContextCreate() throws Exception {
+    javax.xml.bind.JAXBContext c = javax.xml.bind.JAXBContext.newInstance(String.class);
+    String s = String.valueOf(c);
+    int x = s.length();
+    x += 1;
+    x += 2;
+    return x;
+}

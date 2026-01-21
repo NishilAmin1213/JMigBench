@@ -1,0 +1,18 @@
+public static void checkClipboardAccess() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+        try {
+            sm.checkSystemClipboardAccess();
+            System.out.println("Clipboard access allowed.");
+        } catch (SecurityException e) {
+            System.out.println("Clipboard access denied.");
+            return;
+        }
+    }
+    try {
+        java.awt.datatransfer.Clipboard cb = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
+        System.out.println("Clipboard name: " + cb.getName());
+    } catch (Exception e) {
+        System.out.println("Failed to access clipboard: " + e.getMessage());
+    }
+}

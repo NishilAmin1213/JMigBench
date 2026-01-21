@@ -1,0 +1,7 @@
+public static boolean awtEventQueueAccessible() {
+    try {
+        return java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue() != null;
+    } catch (Throwable t) {
+        return false;
+    }
+}

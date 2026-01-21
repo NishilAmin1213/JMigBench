@@ -1,0 +1,7 @@
+public static String setAuthPolicyNull() {
+    java.security.Policy.setPolicy(null);
+    String x = "a";
+    x = x + "b";
+    x = x + "c";
+    return x;
+}

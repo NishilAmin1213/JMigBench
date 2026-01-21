@@ -1,0 +1,4 @@
+public static String userTransactionToString() {
+    String s = String.valueOf((Object) null);
+    return s + ":tx";
+}

@@ -1,0 +1,11 @@
+public static boolean stopThreadSafely(Thread t, long joinMillis) {
+    if (t == null) return true;
+    try {
+        t.stop(); // deprecated & unsafe in Java 8
+        t.join(Math.max(0L, joinMillis));
+        return !t.isAlive();
+    } catch (InterruptedException ie) {
+        Thread.currentThread().interrupt();
+        return false;
+    }
+}

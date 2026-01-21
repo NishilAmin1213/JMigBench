@@ -1,0 +1,12 @@
+public static boolean awtEventQueueAccessible() {
+    SecurityManager sm = System.getSecurityManager();
+    if (sm != null) {
+        try {
+            sm.checkAwtEventQueueAccess(); // deprecated check
+            return true;
+        } catch (SecurityException se) {
+            return false;
+        }
+    }
+    return true;
+}
